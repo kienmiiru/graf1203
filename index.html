@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>graf1203</title>
+    <style>
+        .flex {
+            display: flex;
+        }
+        .selected {
+            background-color: #c0c0c0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <script src="/src/graph.js" defer></script>
+    <script src="/src/antimagic.js" defer></script>
+    <div id="mode" class="flex">
+        <div>
+            <input type="radio" name="mode" id="select" checked onchange="graphRender.state.mode='select'">
+            <label for="select">Select</label>
+        </div>
+        <div>
+            <input type="radio" name="mode" id="addVertex" onchange="graphRender.state.mode='add'">
+            <label for="addVertex">Add Vertex</label>
+        </div>
+        <div>
+            <input type="radio" name="mode" id="connect" onchange="graphRender.state.mode='connect'">
+            <label for="connect">Connect</label>
+        </div>
+        <div>
+            <input type="radio" name="mode" id="delete" onchange="graphRender.state.mode='delete'">
+            <label for="delete">Delete</label>
+        </div>
+    </div>
+    <div class="flex">
+        <canvas id="graf" width=1000 height=500 style="border: 1px solid black"></canvas>
+        <div style="overflow-y: scroll;max-height: 70vh;">
+            Vertices
+            <div id="titik">
+
+            </div>
+            <br>
+            Edges
+            <div id="sisi">
+
+            </div>
+        </div>
+    </div>
+    <div id="propertiTitik" class="hidden">
+        <label for="namaTitik">Vertex Name:</label>
+        <input type="text" name="namaTitik" id="namaTitik">
+        <button id="hapusTitik">Delete Vertex</button>
+    </div>
+    <div id="propertiSisi" class="hidden">
+        <label for="namaSisi">Edge Name:</label>
+        <input type="text" name="namaSisi" id="namaSisi">
+        <button id="hapusSisi">Delete Edge</button>
+    </div>
+    <div id="computation">
+        <progress max="100" value="100" style="width:100%"></progress>
+        <p>Result: <span></span></p>
+    </div>
+    <fieldset style="width:fit-content">
+        <legend>Antimagic Labeling</legend>
+        <button onclick="callSolverAsynchronously(findAntimagicLabeling(false))">Find</button>
+        <button onclick="callSolverAsynchronously(findAntimagicLabeling(true))">Count</button>
+    </fieldset>
+</body>
+</html>
