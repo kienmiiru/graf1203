@@ -14,31 +14,38 @@ function isAntimagicLabeling() {
     for (let vertex of graph.vertices) {
         let weight = calculateWeight(vertex)
         graphRender.renameVertex(vertex, weight)
+        if (weights.has(weight)) {
+            return false
+        }
         weights.add(weight)
     }
-    return weights.size == graph.vertices.size
+    return true
+    // return weights.size == graph.vertices.size
 }
 
-function* generatePermutations(arr) {
-  const n = arr.length;
-
-  // Base case: if the array has 0 or 1 element, it's already a permutation
-  if (n <= 1) {
-    yield arr;
-    return;
-  }
-
-  // Recursive step: iterate through each element
-  for (let i = 0; i < n; i++) {
-    // Create a new array by removing the current element
-    const remainingElements = [...arr.slice(0, i), ...arr.slice(i + 1)];
-
-    // Recursively generate permutations of the remaining elements
-    for (const subPermutation of generatePermutations(remainingElements)) {
-      // Yield the current element prepended to each sub-permutation
-      yield [arr[i], ...subPermutation];
+function* generatePermutations(arr, k) {
+    const n = arr.length;
+    if (k < 0 || k > n) {
+        return; // Invalid k
     }
-  }
+
+    // Base case: if k is 0, yield an empty array
+    if (k === 0) {
+        yield [];
+        return;
+    }
+
+    // Recursive step: iterate through each element in the array
+    for (let i = 0; i < n; i++) {
+        const currentElement = arr[i];
+        // Create a new array excluding the current element for the recursive call
+        const remainingElements = arr.slice(0, i).concat(arr.slice(i + 1));
+
+        // Recursively generate permutations of length k-1 from the remaining elements
+        for (const perm of generatePermutations(remainingElements, k - 1)) {
+            yield [currentElement, ...perm]; // Prepend the current element to each sub-permutation
+        }
+    }
 }
 
 function factorial(n) {
@@ -49,7 +56,7 @@ function factorial(n) {
 
 window.findAntimagicLabeling = function* (all) {
     let edges = [...graph.edges]
-    let edgePermutations = generatePermutations(edges)
+    let edgePermutations = generatePermutations(edges, edges.length)
     let attempt = 0
     let found = 0
     let total = factorial(edges.length)
