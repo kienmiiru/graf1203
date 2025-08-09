@@ -19,6 +19,8 @@
 <body>
     <script src="/src/graph.js" defer></script>
     <script src="/src/antimagic.js" defer></script>
+    <script src="/src/graceful.js" defer></script>
+    <script src="/src/dominatingset.js" defer></script>
     <div id="mode" class="flex">
         <div>
             <input type="radio" name="mode" id="select" checked onchange="graphRender.state.mode='select'">
@@ -69,6 +71,17 @@
         <legend>Antimagic Labeling</legend>
         <button onclick="callSolverAsynchronously(findAntimagicLabeling(false))">Find</button>
         <button onclick="callSolverAsynchronously(findAntimagicLabeling(true))">Count</button>
+    </fieldset>
+    <fieldset style="width:fit-content">
+        <legend>Graceful Labeling</legend>
+        <button onclick="callSolverAsynchronously(findGracefulLabeling(false))">Find</button>
+        <button onclick="callSolverAsynchronously(findGracefulLabeling(true))">Count</button>
+    </fieldset>
+    <fieldset style="width:fit-content">
+        <legend>Dominating Set</legend>
+        <input type="number" id="dominatingSetCardinality" value="1">
+        <button onclick="callSolverAsynchronously(findDominatingSet(+dominatingSetCardinality.value, false))">Find</button>
+        <button onclick="callSolverAsynchronously(findDominatingSet(+dominatingSetCardinality.value, true))">Count</button>
     </fieldset>
 </body>
 </html>
