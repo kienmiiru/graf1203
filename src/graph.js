@@ -360,7 +360,9 @@ class GraphRender {
                 }
                 case 'add': {
                     if (this.state.isDragging) {
-                        this.addVertex()
+                        let newVertex = this.addVertex('', this.state.mouseX, this.state.mouseY)
+                        this.changeSelectedVertex(newVertex)
+                        this.graphManager.focusVertexPropertyDiv()
                     }
 
                     break
@@ -378,7 +380,11 @@ class GraphRender {
                                 y2 - 20 <= y &&
                                 y2 + 20 >= y
                             ) {
-                                this.addEdge(this.state.vertexBeingSelected, vertex)
+                                let edge = this.addEdge(this.state.vertexBeingSelected, vertex)
+                                if (edge) {
+                                    this.changeSelectedEdge(edge)
+                                    this.graphManager.focusEdgePropertyDiv()
+                                }
                                 break
                             }
                         }
@@ -457,14 +463,13 @@ class GraphRender {
         return null
     }
 
-    addVertex() {
-        let newVertex = new Vertex()
+    addVertex(name='', x, y) {
+        let newVertex = new Vertex(name)
         this.graph.addVertex(newVertex)
-        this.positions.set(newVertex, [this.state.mouseX, this.state.mouseY])
+        this.positions.set(newVertex, [x, y])
         this.graphManager.createVertexElem(newVertex)
         this.graphManager.update()
-        this.changeSelectedVertex(newVertex)
-        this.graphManager.focusVertexPropertyDiv()
+        return newVertex
     }
 
     renameVertex(vertex, name) {
@@ -500,8 +505,7 @@ class GraphRender {
         if (!edge) return // Avoiding duplicated edge
         this.graphManager.createEdgeElem(edge)
         this.graphManager.update()
-        this.changeSelectedEdge(edge)
-        this.graphManager.focusEdgePropertyDiv()
+        return edge
     }
 
     renameEdge(edge, name) {
