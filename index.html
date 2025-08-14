@@ -21,6 +21,7 @@
     <script src="/src/antimagic.js" defer></script>
     <script src="/src/graceful.js" defer></script>
     <script src="/src/dominatingset.js" defer></script>
+    <script src="/src/random.js" defer></script>
     <div id="mode" class="flex">
         <div>
             <input type="radio" name="mode" id="select" checked onchange="graphRender.state.mode='select'">
@@ -82,6 +83,11 @@
         <input type="number" id="dominatingSetCardinality" value="1">
         <button onclick="callSolverAsynchronously(findDominatingSet(+dominatingSetCardinality.value, false))">Find</button>
         <button onclick="callSolverAsynchronously(findDominatingSet(+dominatingSetCardinality.value, true))">Count</button>
+    </fieldset>
+    <fieldset style="width:fit-content">
+        <legend>Generate a Random Tree</legend>
+        <input type="number" id="treeOrder" value="4">
+        <button onclick="generateRandomTree(+treeOrder.value)">Generate</button>
     </fieldset>
 </body>
 </html>
